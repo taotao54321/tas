@@ -1,0 +1,211 @@
+﻿R:0000:input1:1P入力\nABSTUDLR
+R:0001:input1_prev:1F前の1P入力\nABSTUDLR
+R:0002:input2:2P入力(標準コントローラ)\nABSTUDLR
+R:0003:input2_prev:1F前の2P入力(標準コントローラ)\nABSTUDLR
+R:0004:input:現プレイヤーの入力\nABSTUDLR
+R:0005:input_prev:1F前の現プレイヤーの入力\nABSTUDLR
+R:0006:paddle_button:アルカノイドパドルのボタン入力\n全bitに反映
+R:0007:paddle_button_prev:1F前のアルカノイドパドルのボタン入力\n全bitに反映
+R:0008:paddle_knob:アルカノイドパドルのツマミ入力
+R:0009:paddle_knob_prev:1F前のアルカノイドパドルのツマミ入力
+R:000A:game_state
+R:000D:life:現プレイヤーの残機
+R:000F:block_count:現プレイヤーの残りブロック数
+R:0014:ppu_ctrl:2000 退避用
+R:0015:ppu_mask:2001 退避用
+R:0016:ppu_scroll_y:2005 y退避用
+R:0017:ppu_scroll_x:2005 x退避用
+R:0018:twoplayer:2Pモード\n0:no\n1:yes
+R:0019:turn:手番\n0:1P\n1:2P
+R:001A:stage:現在の面\n1-based
+R:001B:stage_str_0:面数表示用バッファ[0]
+R:001C:stage_str_1:面数表示用バッファ[1]
+R:001D:life1_bak:1P残機記録用
+R:001E:life2_bak:2P残機記録用
+R:001F:block_count_1_bak:1Pブロック数記録用
+R:0020:block_count_2_bak:2Pブロック数記録用
+R:0021:stage1_bak:1P面記録用
+R:0022:stage_str_1_bak_0:1P面数表示用バッファ記録用[0]
+R:0023:stage_str_1_bak_1:1P面数表示用バッファ記録用[1]
+R:0024:stage2_bak:2P面記録用
+R:0025:stage_str_2_bak_0:2P面数表示用バッファ記録用[0]
+R:0026:stage_str_2_bak_1:2P面数表示用バッファ記録用[1]
+R:0033:ball1_dir:ボール1移動方向\n\nxxxxxxHV\n\nH: 0:R, 1:L\nV: 0:U, 1:D
+R:0037:ball1_y:ボール1座標y
+R:0038:ball1_x:ボール1座標x
+R:0048:ball1_angle:ボール1角度\n[0,2]
+R:004D:ball2_dir:ボール2移動方向\n\nxxxxxxHV\n\nH: 0:R, 1:L\nV: 0:U, 1:D
+R:0051:ball2_y:ボール2座標y
+R:0052:ball2_x:ボール2座標x
+R:0062:ball2_angle:ボール2角度\n[0,2]
+R:0067:ball3_dir:ボール3移動方向\n\nxxxxxxHV\n\nH: 0:R, 1:L\nV: 0:U, 1:D
+R:006B:ball3_y:ボール3座標y
+R:006C:ball3_x:ボール3座標x
+R:007C:ball3_angle:ボール3角度\n[0,2]
+R:0081:ball_alive:ボール存在フラグ\n\nxxxxxCBA\n\nA: ボール1\nB: ボール2\nC: ボール3
+R:008C:item:出現中のアイテム\n\n0:(なし)\n1:スロー\n2:キャッチ\n3:エンラージ\n4:ディスラプション\n5:レーザー\n6:ワープ\n7:エクステンド
+R:0091:item_y:アイテム座標y
+R:0094:item_x:アイテム座標x
+R:0114:vaus_y:自機座標y
+R:011A:vaus_x_0:自機座標x[0]
+R:011B:vaus_x_1:自機座標x[1]
+R:011C:vaus_x_2:自機座標x[2]
+R:011D:vaus_x_3:自機座標x[3]
+R:011E:vaus_x_4:自機座標x[4]
+R:011F:vaus_x_5:自機座標x[5]
+R:0120:vaus_tile_edge:自機スプライトタイル(両端1マス)
+R:0121:vaus_tile_center:自機スプライトタイル(中央4マス)
+R:0123:warping:ワープ中\n0:no, 1:yes
+R:0124:warphole:ワープホール\n0:閉, 1:開(グラフィックA), 2:開(グラフィックB)
+R:0128:catch:キャッチ\n0:off, 1:on
+R:0129:vaus_transform:自機変形\n0:(なし)\n1:通常形態へ\n2:エンラージ形態へ\n3:レーザー形態へ
+R:012D:item_picked:直前に取ったアイテム\n\n0:(なし)\n1:スロー\n2:キャッチ\n3:エンラージ\n4:ディスラプション\n5:レーザー\n6:ワープ\n7:エクステンド
+R:0146:palette_bg:BGパレット\nsize=16
+R:0156:palette_sprite:スプライトパレット\nsize=16
+R:0200:sprite_cursor:スプライト:タイトル画面のカーソル
+R:0204:sprite_vaus_0:スプライト:自機[0]
+R:0208:sprite_vaus_1:スプライト:自機[1]
+R:020C:sprite_vaus_2:スプライト:自機[2]
+R:0210:sprite_vaus_3:スプライト:自機[3]
+R:0214:sprite_vaus_4:スプライト:自機[4]
+R:0218:sprite_vaus_5:スプライト:自機[5]
+R:022C:sprite_ball1:スプライト:ボール1
+R:0230:sprite_ball2:スプライト:ボール2
+R:0234:sprite_ball3:スプライト:ボール3
+R:0360:warmboot_str:ソフトリセット判定用文字列 size=6
+R:0366:hiscore:ハイスコア size=6\nunpacked BCD, big endian
+R:0370:score1:1Pスコア size=6\nunpacked BCD, big endian
+R:0376:score2:2Pスコア size=6\nunpacked BCD, big endian
+P:0000:RESET
+P:0001::disable APU frame IRQ
+P:0010::3回VBLANK待ち
+P:0012::PPU_STATUS に謎の書き込みを行っているが、多分無意味
+P:0034::ページ0を0クリア
+P:003D::ページ1を0クリア
+P:0043::S = FFh
+P:0048::warmboot_str が WARMBOOT_STR と一致しない場合、ハードリセットとみなし、以下の処理を行う:\n  WARMBOOT_STR を warmboot_str へコピー\n  HISCORE_INI を hiscore へコピー
+P:0065::370h-3EFh を0クリア
+P:007C::4025h には何も割り当てられていないので意図が不明\nFDS (レジスタ 4025h を持つ)への移植を意識したもの?\n※FDS の発売日は 1986/02/21, FC版アルカノイドの発売日は 1986/12/26
+P:0088::無限ループ\n以降、NMIルーチンのみで全ての処理を行う
+P:008F:WARMBOOT_STR:ソフトリセット判定用文字列 size=6
+P:009B:IRQ
+P:00A0:NMI
+P:0168::if(ball_alive == 0) return
+P:016B::if(warping) return
+P:0171::if(game_state == 20h) return
+P:017E::if(block_count == 0) return
+P:0233::if(game_state != 10h) return
+P:023E::if(!catch) return
+P:024D:collision_vaus_item:アイテム取得判定\n----------------
+P:024F::if(ball_alive == 0) return
+P:0252::if(!item) return
+P:0257::# y衝突判定\nif(item_y < vaus_y[0] - 8 || vaus_y[0] + 4 < item_y) return
+P:0262::# x衝突判定\nif(item_x < vaus_x[0] - 8 || vaus_x[5] <= item_x) return
+P:0347::if(ball_alive != 1) return
+P:034C::if(block_count == 0) return
+P:0351::if(item) return
+P:03E5::アイテム出現乱数
+P:0564:warp_process:ワープ処理\n----------
+P:05E0:pause_check
+P:0BE3:input_read:入力読み取り\n------------
+P:0BF7::各ボタンおよびパドル入力読み取り
+P:0C1A::パドルのツマミ入力値を補正(詳細未解析)
+P:0C40::input = turn == 0 ? input1 : input2
+P:0C4C::input |= paddle_button & 80
+P:0C58:oam_dma
+P:0EC2:disruption_activate:ディスラプション発動\n--------------------
+P:0EE0:DISRUPTION_ANGLE
+P:121B:palette_update_item:アイテム用スプライトパレット書き込み\n------------------------------------
+P:123D:PALETTE_ITEM
+P:1259:rand:乱数生成器\n----------\nOut\n  A U8 result
+P:128C:RAND_DATA:乱数生成用データ
+P:129C:bcd_add:unpacked BCD (big endian) の加算\n--------------------------------\nIn\n  Y   U8  桁数\n  86h ptr lhs\n  88h ptr rhs\n  8Ah ptr result
+P:12BB:bcd_sub:unpacked BCD (big endian) の減算\n--------------------------------\nIn\n  Y   U8  桁数\n  86h ptr lhs\n  88h ptr rhs\n  8Ah ptr result
+P:1568:DEMO_STAGES:デモプレイ対象面
+P:156E:stage_load:面データのロード\n----------------\nIn\n  X   U8  面 (1-based)\n  84h ptr ロード先
+P:15FE::面開始前の描画処理(黒背景)\n--------------------------
+P:1682::BG描画用データ "ROUND"
+P:168B:draw_right_panel:右枠描画\n--------
+P:172A::BG描画用データ
+P:190A::面開始時の初期化処理\n--------------------
+P:1AD9:sprite_transfer:スプライトバッファ (200h-) へデータをコピー\n-----------------------------------------\nIn\n  86h ptr コピー元ポインタ\n  X   U8  サイズ (0 の場合、256 Byte)
+P:1AE5::手番に応じてBGパレットを設定\n----------------------------
+P:1B08::面に応じてスプライトパレットを設定\n----------------------------------
+P:1B25::面に応じたスプライトパレット (4n+1, 4n+2, 4n+3, 4n 面)
+P:1C4E::タイトル画面の SELECT を含むキー操作の処理\n------------------------------------------
+P:1C78::コンティニューコマンド
+P:1C89:draw_ready:"PLAYER [12] READY" 表示 (スプライト)\n----
+P:1CB0:draw_gameover:"PLAYER [12] GAME OVER" 表示 (スプライト)\n----
+P:1CE9:ending_gameover:エンディングのゲームオーバー画面の処理\n----
+P:1DE4::BGパレット、BG描画用データ
+P:1ED7::254h-28Fh のスプライトを非表示\n----
+P:1EE8::スプライトデータ "PLAYER 1", "READY", "GAME OVER"
+P:1F38:blink_gamemode:ゲーム開始時の "1 PLAYER" / "2 PLAYERS" 点滅処理\n----
+P:1F88::BG描画用データ
+P:1FBA:chr_load_stage:面に対応するCHRバンクをロード\n----\n36面ではCHR-1, その他の面ではCHR-0
+P:1FCB:CHR_BANK:バンク切り替え時の bus conflict 回避用
+P:1FCD::033h-19Fh を0クリア\n----
+P:20CA:draw_opening_story:オープニング ストーリー描画\n----
+P:2111:draw_ending_story:エンディング ストーリー描画
+P:215A::属性テーブルデータ
+P:219A:sprite_init:A1A8h-A2A7h をスプライトバッファ (200h-) へコピー\n----
+P:21A8::スプライトバッファ初期化データ
+P:22A8:draw_score_top:画面上部のスコア描画\n----\nIn\n  Y U8 PPUアドレス上位
+P:2308::BG描画用データ
+P:236A:ppu_transfer_str:PPUへのデータ転送\n----\nIn\n  X   U8  PPUアドレス下位\n  Y   U8  PPUアドレス上位\n  86h ptr 転送データ\n \n6 Byte 転送する。データ先頭の 00h は 2Dh (空白)に置き換える。
+P:23C3:ppu_transfer:PPUへのデータ転送\n----\nIn\n  86 ptr 転送データ\n \nデータフォーマット:\n  U8   PPUアドレス上位\n  U8   PPUアドレス下位\n  U8   書き込みサイズ\n  U8[] データ\n \nFFh が現れたらそこでデータ終端とみなす。
+P:23EE:ppu_vram_clear:ネームテーブルクリア\n----\nIn\n  X U8 PPUアドレス下位\n  Y U8 PPUアドレス上位\n \n400h Byte の 2Dh を書き込む。\nPPUアドレスとして 2000h または 2800h を指定する。
+P:2412:palette_update_bg:BGパレット書き込み\n----
+P:243A:palette_update_sprite:スプライトパレット書き込み\n----
+P:2462:ppu_transfer_attr:属性テーブル書き込み\n----\nIn\n  A   U8  PPUアドレス上位 (下位は C0h 固定)\n  86h ptr 属性テーブルデータ (40h Byte)
+P:28B7:collision_vaus_ball:自機とボールの衝突判定\n----
+P:2963::角度 [0,5] に対応するデータ
+P:2C5D::ボール動きデータ
+P:37F3:draw_hiscore
+P:3803:draw_score1
+P:3813:draw_score2
+P:3823:draw_life:残機描画\n----
+P:3889::VRAMアドレス (残機描画用)
+P:3895:draw_pause:ポーズ状態描画\n----
+P:38D8::ポーズ状態 (ON/OFF) 描画用データ
+P:38EA:draw_warp:ワープホール描画\n----
+P:3945::ワープホール描画用データ
+P:3A0E:draw_vaus:自機描画\n----
+P:3D91::VRAMアドレス
+P:3DA9:draw_doh_mouth:DOHの口を描画\n----
+P:3E16::BG描画用データ DOHの口(開/閉)
+P:43F1::敵進入口描画\n----
+P:446B::敵進入口のVRAMアドレスおよび描画用データ
+P:73C0:apu_init
+P:73CC:_apu_init
+P:8095:HISCORE_INI:初期ハイスコア
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)
