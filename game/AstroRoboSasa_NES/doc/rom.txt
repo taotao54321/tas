@@ -1,0 +1,291 @@
+アストロロボ・ササ ROM map
+==========================
+
+
+$8018 - スコアを加算するルーチンと思われる(10単位)
+$8030 - スコアを加算するルーチンと思われる(100単位)
+
+
+$812A - 全オブジェクトを処理するルーチン(処理結果を $0300- に書き込み、$0200- に書き戻す
+$817C - オブジェクトタイプに対応した処理を実行するルーチン
+
+$818B-$81C4 - オブジェクトタイプに対応する処理
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+引数について:
+  Read
+    $00	U8	オブジェクト自身のアドレス($0200 からのオフセット)
+    $01	U8	オブジェクトデータ更新用オフセット($0300 から)
+
+  0	$AF05	rts
+  PLAYER1	$840C
+  PLAYER2	$840C
+  PLAYERBULLET	$89D2
+  ENERGY	$8B23
+  BALLOON	$8A71
+  BALLOONSTRING	$8B07
+  SCISSORS	$8C19
+  COW	$901F
+  DRUM	$8BA0
+  HELI	$8D38
+  HELIBULLET	$8F3E
+  WALLV	$8C9E
+  ROBO	$91B3
+  BLICK	$8B8F
+  ROBODEAD	$8C9E
+  SEAHORSE	$97A4
+  BUBBLE	$953A
+  STARFISH	$8E0D
+  STARFISHCHILD	$8E7E
+  SEAWEED	$8CD5
+  SEAHORSEBULLET	$9768
+  WALLH	$8C9E
+  0x17	$8C85
+  ASTEROID	$95EE
+  RAY	$9912
+  ASTEROIDCHILD	$9599
+  CAPSULE	$8C9E
+  BLACKHOLE	$8C85
+
+
+$81C5-$81E4 - ステージごとの障害物データへのポインタ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+障害物データは4Byte単位(4Byte全て0ならばデータの終端)
+
+$81E5 - ステージ01 障害物データ
+$81F1 - ステージ02/03 障害物データ
+$8205 - ステージ04/05 障害物データ
+$8221 - ステージ06 障害物データ
+$823D - ステージ07 障害物データ
+$8269 - ステージ08 障害物データ
+$8291 - ステージ09 障害物データ
+$82B1 - ステージ10 障害物データ
+$82DD - ステージ11 障害物データ
+$8311 - ステージ12 障害物データ
+$8355 - ステージ13/14/15 障害物データ
+$8381 - ステージ16 障害物データ
+
+
+$83AD - 障害物との接触判定ルーチン
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Read
+  X	U8	x座標
+  Y	U8	y座標
+Write
+  A	U8	0:非接触, 0x7F:接触
+
+$83E7 - 障害物との接触判定補助ルーチン
+
+
+$8A69 - オブジェクトデータ更新用オフセットを進めるルーチン
+
+
+$9285 - 敵ロボのワープ先決定処理(ルーチン $91B3 内)
+
+
+$950A - 敵ロボのワープ先データ(同じものが複数あるのは確率的な重み付けのためと思われる)
+
+
+$9C9E - Bボタンが押されたらエネルギーを譲渡するルーチン
+$9CFB - 1Pから2Pにエネルギーを譲渡するルーチン
+$9D3A - 2Pから1Pにエネルギーを譲渡するルーチン
+
+
+$AC7F - オブジェクト間の接触処理
+$AD30 - オブジェクト接触処理ルーチンへジャンプする処理
+
+
+$AD43-$AD7C - オブジェクトタイプ別当たり判定
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  0	(0,0)
+  PLAYER1	(6,6)
+  PLAYER2	(6,6)
+  PLAYERBULLET	(4,4)
+  ENERGY	(7,3)
+  BALLOON	(8,8)
+  BALLOONSTRING	(2,4)
+  SCISSORS	(8,8)
+  COW	(8,8)
+  DRUM	(8,8)
+  HELI	(8,8)
+  HELIBULLET	(4,4)
+  WALLV	(5,12)
+  ROBO	(8,8)
+  BLICK	(8,8)
+  ROBODEAD	(8,8)
+  SEAHORSE	(8,8)
+  BUBBLE	(4,8)
+  STARFISH	(4,4)
+  STARFISHCHILD	(4,4)
+  SEAWEED	(10,10)
+  SEAHORSEBULLET	(4,4)
+  WALLH	(12,5)
+  0x17	(0,0)
+  ASTEROID	(8,8)
+  RAY	(8,8)
+  ASTEROIDCHILD	(4,4)
+  CAPSULE	(10,10)
+  BLACKHOLE	(8,8)
+
+
+$AD7D-$AD98 - オブジェクトタイプに対応する接触処理ルーチンリストへのオフセット(2Byte単位、$AD99 から)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  PLAYER1	0x00
+  PLAYER2	0x1B
+  PLAYERBULLET	0x35
+  ENERGY	0x4E
+  BALLOON	0x66
+  BALLOONSTRING	0x69
+  SCISSORS	0x6B
+  COW	0x6C
+  DRUM	0x6C
+  HELI	0x6F
+  HELIBULLET	0x71
+  WALLV	0x72
+  ROBO	0x72
+  BLICK	0x74
+  ROBODEAD	0x75
+  SEAHORSE	0x75
+  BUBBLE	0x7B
+  STARFISH	0x80
+  STARFISHCHILD	0x84
+  SEAWEED	0x87
+  SEAHORSEBULLET	0x89
+  WALLH	0x8A
+  0x17	0x8A
+  ASTEROID	0x8F
+  RAY	0x93
+  ASTEROIDCHILD	0x96
+  CAPSULE	0x98
+  BLACKHOLE	0x99
+
+
+$AD99-$AF03 - 各オブジェクトタイプに対する接触処理ルーチンリスト
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+引数について:
+  Read
+    X, $58	U8	オブジェクト1のアドレス($0200 からのオフセット)
+    Y, $59	U8	オブジェクト2のアドレス($0200 からのオフセット)
+
+PLAYER1
+  (0	$AF05	rts)
+  PLAYER1	$AF05	rts
+  PLAYER2	$AF06
+  PLAYERBULLET	$AF29
+  ENERGY	$AF40
+  BALLOON	$AFB7
+  BALLOONSTRING	$AF05	rts
+  SCISSORS	$AFF9
+  COW	$B027
+  DRUM	$B030
+  HELI	$B039
+  HELIBULLET	$B042
+  WALLV	$B057
+  ROBO	$B139
+  BLICK	$B142
+  ROBODEAD	$B14B
+  SEAHORSE	$B154
+  BUBBLE	$AF05	rts
+  STARFISH	$B19D
+  STARFISHCHILD	$B1AB
+  SEAWEED	$B1E2
+  SEAHORSEBULLET	$B1EB
+  WALLH	$B057
+  0x17	$AF05	rts
+  ASTEROID	$B1FB
+  RAY	$B204
+  ASTEROIDCHILD	$B248
+  CAPSULE	$B0BC
+  BLACKHOLE	$B258
+PLAYER2
+  PLAYER2	$AF05	rts
+  PLAYERBULLET	$AF29
+  ENERGY	$AF40
+  BALLOON	$AFB7
+  BALLOONSTRING	$AF05	rts
+  SCISSORS	$AFF9
+  COW	$B027
+  DRUM	$B030
+  HELI	$B039
+  HELIBULLET	$B042
+  WALLV	$B057
+  ROBO	$B139
+  BLICK	$B142
+  ROBODEAD	$B14B
+  SEAHORSE	$B154
+  BUBBLE	$AF05	rts
+  STARFISH	$B19D
+  STARFISHCHILD	$B1AB
+  SEAWEED	$B1E2
+  SEAHORSEBULLET	$B1EB
+  WALLH	$B057
+  0x17	$AF05	rts
+  ASTEROID	$B1FB
+  RAY	$B204
+  ASTEROIDCHILD	$B248
+  CAPSULE	$B0BC
+  BLACKHOLE	$B258
+PLAYERBULLET
+  PLAYERBULLET	$B27D
+  ENERGY	$AF94
+  BALLOON	$B286
+  BALLOONSTRING	$AF05	rts
+  SCISSORS	$B2F0
+  COW	$B2FE
+  DRUM	$B309
+  HELI	$B322
+  HELIBULLET	$B38F
+  WALLV	$B3BD
+  ROBO	$B422
+  BLICK	$B479
+  ROBODEAD	$AF05	rts
+  SEAHORSE	$B4F8
+  BUBBLE	$AF05	rts
+  STARFISH	$B55B
+  STARFISHCHILD	$B614
+  SEAWEED	$B652
+  SEAHORSEBULLET	$B658
+  WALLH	$B3BD
+  0x17	$AF05	rts
+  ASTEROID	$B681
+  RAY	$B7DD	rts
+  ASTEROIDCHILD	$B7DE
+  CAPSULE	$B3BD
+  BLACKHOLE	$B7E7
+... (以下省略)
+
+
+
+$CADB - WALLV 更新ルーチン
+$CAFA - WALLH 更新ルーチン
+$CB22 - CAPSULE 更新ルーチン
+
+
+$CF4C - ポーズルーチン
+
+
+$D7C1 - 入力処理ルーチン
+~~~~~~~~~~~~~~~~~~~~~~~~
+$D7C5, $D7DE がエントリポイントとなることもある
+$D7C5 は1Pのみ読み取り、$D7DE は2Pのみ読み取り
+Read:
+  A	U8	1P/2Pのどちらを読み取るか(0:1P, 非0:2P)
+Write:
+  A	U8	入力(LRDUTSBA)	# 左右入力があった場合、上下入力は常に0
+
+
+
+$EA1B - タイトル画面描画ルーチン
+
+
+$F202 - EDの4桁の数字を描画する処理
+
+
+$F732 - EDで表示される4桁の数字データ(10通り)
+
+
+$FA7B - スプライトバッファをクリアするルーチン
+
+
+$FE54 - NMI割り込みルーチン
+$FF64 - RESET割り込みルーチン
+# IRQ割り込みは単に rti するだけ

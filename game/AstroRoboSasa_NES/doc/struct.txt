@@ -1,0 +1,79 @@
+アストロロボ・ササ データ構造
+=============================
+
+// オブジェクトタイプは29種類
+enum GameObjType{
+    GAMEOBJ_PLAYER1 = 0x01,
+    GAMEOBJ_PLAYER2 = 0x02,
+
+    GAMEOBJ_PLAYERBULLET = 0x03,
+
+    GAMEOBJ_ENERGY = 0x04,
+    GAMEOBJ_BALLOON = 0x05,
+    GAMEOBJ_BALLOONSTRING = 0x06,
+    GAMEOBJ_SCISSORS = 0x07,
+    GAMEOBJ_COW = 0x08,
+    GAMEOBJ_DRUM = 0x09,
+    GAMEOBJ_HELI = 0x0A,
+    GAMEOBJ_HELIBULLET = 0x0B,
+    GAMEOBJ_WALLV = 0x0C,	// グラフィックなし(スプライトでなくBGとして描画される)
+    GAMEOBJ_ROBO = 0x0D,	// 1面などでこれに書き換えるとその瞬間からフリーズ
+    GAMEOBJ_BLICK = 0x0E,
+    GAMEOBJ_ROBODEAD = 0x0F,
+    GAMEOBJ_SEAHORSE = 0x10,
+    GAMEOBJ_BUBBLE = 0x11,
+    GAMEOBJ_STARFISH = 0x12,
+    GAMEOBJ_STARFISHCHILD = 0x13,
+    GAMEOBJ_SEAWEED = 0x14,
+    GAMEOBJ_SEAHORSEBULLET = 0x15,
+    GAMEOBJ_WALLH = 0x16,
+    GAMEOBJ_ASTEROID = 0x18,
+    GAMEOBJ_RAY = 0x19,
+    GAMEOBJ_ASTEROIDCHILD = 0x1A,
+    GAMEOBJ_CAPSULE = 0x1B,
+    GAMEOBJ_BLACKHOLE = 0x1C,
+};
+// 0x00: 無効オブジェクト(スプライトなし)
+// 0x17: ?(スプライトなし)
+// 0x1D以上: 無効値(むりやり書き換えるとフリーズ)
+
+
+// Size: 8
+struct GameObj{
+    GameObjType	オブジェクトタイプ
+    U8	x座標
+    U8	y座標
+
+    union { ... } // オブジェクトタイプ依存
+};
+
+$0200 をベースアドレスとして
+PLAYER1,PLAYER2:
+  $0203	x速度
+  $0204	y速度
+  # 海流などは含まない模様(別に計算される?)
+  $0205	上位4bit:向き, 下位4bit:?
+  # 0x10:上, 0x20:下, 0x40:右, 0x80:左
+  $0206	次弾発射可能になるまでの時間
+PLAYERBULLET:
+  $0203	向き	# 0x10:上, 0x20:下, 0x40:右, 0x80:左
+  $0204	所属	# 1:1P, 2:2P
+  $0205	寿命
+ENERGY:
+  $0204	?	# 0xFF:落下, 0:静止, 1:1PがE取得
+BALLOON:
+BALLOONSTRING:
+SCISSORS:
+  $0203	x速度
+COW:
+  $0206	硬直時間
+WALLV/WALLH/CAPSULE:
+  $0203	損傷レベル	# [0,5] 0で破壊
+  $0204	損傷レベル内での耐久度	# [0,3]	0の状態でさらに一発当てると次の損傷段階へ
+  $0205	
+ROBO:
+  $0205	運搬しているオブジェクトタイプ?
+
+
+
+

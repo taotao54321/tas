@@ -1,0 +1,172 @@
+﻿R:0004:frame:フレームカウンタ\n2Fに1回インクリメント
+R:001F:energy_count:エネルギーパック残り個数\n面クリア/ゲームオーバーフラグを兼ねる\n0で面クリア/ゲームオーバー
+R:0022:player_count:1P/2Pモード\n1:1P\n2:2P
+R:0023:stage:面\n1-based
+R:0024:score1:1Pスコア size=8\nunpacked BCD, little endian
+R:002C:score2:2Pスコア size=8\nunpacked BCD, little endian
+R:0034:hiscore:ハイスコア size=8\nunpacked BCD, little endian
+R:003C:energy1:1Pエネルギー size=4\nunpacked BCD, little endian
+R:0040:energy2:2Pエネルギー size=4\nunpacked BCD, little endian
+R:0048:direction1:1P向き\n上位4bitのみが意味を持つ\n\n10h:U\n20h:D\n40h:R\n80h:L
+R:0049:direction2:2P向き\n上位4bitのみが意味を持つ\n\n10h:U\n20h:D\n40h:R\n80h:L
+R:004A:damage1:1Pダメージ
+R:004B:damage2:2Pダメージ
+R:005D:bgm:BGM\n[0,7]
+R:0076:nmi_func:NMIルーチン内で実行するコード
+R:0200:object:オブジェクトデータ
+R:0300:object_update:オブジェクトデータ更新用
+R:0700:sprite:スプライトバッファ
+P:0018::スコア加算 (10単位?)\n----
+P:0030::スコア加算 (100単位?)\n----
+P:012A::全オブジェクトを処理\n----\n処理結果を object_update に書き込み、それを object に書き戻す
+P:0130::object 内の全オブジェクトを処理\n先頭Byteが0ならば存在しないオブジェクトとみなして次へ
+P:0143::object_update を object へ書き戻す\nオブジェクトタイプ0のものは飛ばす
+P:0162::コピーを終えたら残りは0クリア
+P:016A::object_update を0クリア
+P:017C::オブジェクトタイプに対応した処理を実行する\n----\n飛び先のルーチンの引数は以下の通り:\n \nIn\n  00h U8 オブジェクト自身のアドレス (object からのオフセット)\n  01h U8 オブジェクトデータ更新用 (object_update からのオフセット)
+P:018B::オブジェクトタイプごとのルーチンリスト
+P:03AD:barrier_check:BARRIER との接触判定\n----\nIn\n  X U8 座標x\n  Y U8 座標y\nOut\n  A U8 0:非接触, 7Fh:接触
+P:03E7:barrier_check_helper:BARRIER との接触判定 下請け\n----\nIn\n  0Bh U8 座標x\n  0Ch U8 座標y\nOut\n  A U8 0:非接触, 7Fh:接触
+P:040C::PLAYER1, PLAYER2 の処理\n----\nIn\n  00h U8 オブジェクトアドレス (object からのオフセット)\n  01h U8 更新用アドレス (object_update からのオフセット)
+P:09D2::PLAYERBULLET の処理\n----
+P:0A69:obj_next:オブジェクトデータ更新用オフセットを進め、次のオブジェクトを指すようにする\n----\n01h に 8 を加えるだけ
+P:0A71::BALLOON の処理\n----
+P:0B07::BALLOONSTRING の処理\n----
+P:0B23::ENERGY の処理\n----
+P:0B8F::BLICK の処理\n----
+P:0BA0::DRUM の処理\n----
+P:0C19::SCISSORS の処理\n----
+P:0C85::17h, BLACKHOLE の処理\n----
+P:0C9E::WALLV, ROBODEAD, WALLH, CAPSULE の処理\n----
+P:0CD5::SEAWEED の処理\n----
+P:0D38::HELI の処理\n----
+P:0E0D::STARFISH の処理\n----
+P:0E7E::STARFISHCHILD の処理\n----
+P:0F3E::HELIBULLET の処理\n----
+P:101F::COW の処理\n----
+P:11B3::ROBO の処理\n----
+P:1285::ROBO のワープ先決定処理\n1P/2Pのエネルギー下2桁、およびフレームカウンタに依存
+P:1350::ROBO がエネルギーパックを降ろすかどうかの判定\nフレームカウンタが B1h かつ (energy1 ^ energy2 & 1) == 1 なら降ろす
+P:153A::BUBBLE の処理\n----
+P:1599::ASTEROIDCHILD の処理\n----
+P:15EE::ASTEROID の処理\n----
+P:1768::SEAHORSEBULLET の処理\n----
+P:17A4::SEAHORSE の処理\n----
+P:1912::RAY の処理\n----
+P:1A47::9A54h- のポインタを 0Dh に返す\n----\nIn\n  A U8 index\nOut\n  0Dh ptr result
+P:1C9E:give_energy_check:Bボタンが押されたらエネルギー譲渡\n----
+P:1CFB:give_energy_1to2:1Pから2Pへエネルギー譲渡\n----
+P:1D3A:give_energy_2to1:2Pから1Pへエネルギー譲渡\n----
+P:2C7F:collision:オブジェクト間の衝突判定および接触処理\n----
+P:2CA2::横方向の接触判定
+P:2CC5::縦方向の接触判定
+P:2F05:hit_nop
+P:2F06:hit_player_player:接触処理 PLAYER1 vs PLAYER2\n----
+P:2F08::両者に30ダメージ
+P:2F0C::両者の速度を交換
+P:2F29:hit_player_bullet:接触処理 PLAYER1/PLAYER2 vs PLAYERBULLET\n----
+P:2F2C::自分の弾との接触は無視
+P:2F32::弾を消し、被弾者に30ダメージ
+P:2F40:hit_player_energy:接触処理 PLAYER1/PLAYER2 vs ENERGY\n----
+P:2F43::取得者のエネルギーが0なら即 return
+P:2F94:hit_bullet_energy:接触処理 PLAYERBULLET vs ENERGY\n----
+P:2FB7:hit_player_balloon:接触処理 PLAYER1/PLAYER2 vs BALLOON\n----
+P:2FF9:hit_player_scissors:接触処理 PLAYER1/PLAYER2 vs SCISSORS\n----
+P:3027:hit_player_cow:接触処理 PLAYER1/PLAYER2 vs COW\n----\n被弾者に30ダメージ
+P:3030::接触処理 PLAYER1/PLAYER2 vs DRUM\n----\n被弾者に30ダメージ
+P:3039:hit_player_heli:接触処理 PLAYER1/PLAYER2 vs HELI\n----\n被弾者に30ダメージ
+P:3042:hit_player_helibullet:接触処理 PLAYER1/PLAYER2 vs HELIBULLET\n----\nHELIBULLET を消し、被弾者に30ダメージ
+P:3057:hit_player_wall:接触処理 PLAYER1/PLAYER2 vs WALLV/WALLH\n----
+P:30BC::接触処理 PLAYER1/PLAYER2 vs CAPSULE\n----
+P:3139:hit_player_robo:接触処理 PLAYER1/PLAYER2 vs ROBO\n----\n被弾者に30ダメージ
+P:3142:hit_player_blick:接触処理 PLAYER1/PLAYER2 vs BLICK\n----\n被弾者に30ダメージ
+P:314B:hit_player_robodead:接触処理 PLAYER1/PLAYER2 vs ROBODEAD\n----\n被弾者に30ダメージ
+P:3154::接触処理 PLAYER1/PLAYER2 vs SEAHORSE\n----
+P:319D:hit_player_starfish:接触処理 PLAYER1/PLAYER2 vs STARFISH\n----\n被弾者に30ダメージ
+P:31AB::接触処理 PLAYER1/PLAYER2 vs STARFISHCHILD\n----
+P:31E2:hit_player_seaweed:接触処理 PLAYER1/PLAYER2 vs SEAWEED\n----\n被弾者に30ダメージ
+P:31EB:hit_player_seahorsebullet:接触処理 PLAYER1/PLAYER2 vs SEAHORSEBULLET\n----\nSEAHORSEBULLET を消し、被弾者に30ダメージ
+P:31FB:hit_player_asteroid:接触処理 PLAYER1/PLAYER2 vs ASTEROID\n----\n被弾者に30ダメージ
+P:3204::接触処理 PLAYER1/PLAYER2 vs RAY\n----
+P:3248:hit_player_asteroidchild:接触処理 PLAYER1/PLAYER2 vs ASTEROIDCHILD\n----\nASTEROIDCHILD を消し、被弾者に30ダメージ
+P:3258::接触処理 PLAYER1/PLAYER2 vs BLACKHOLE\n----
+P:327D:hit_bullet_bullet:接触処理 PLAYERBULLET vs PLAYERBULLET\n----\n両者とも消す
+P:3286::接触処理 PLAYERBULLET vs BALLOON\n----
+P:32F0:hit_bullet_scissors:接触処理 PLAYERBULLET vs SCISSORS\n----\nPLAYERBULLET を消し、SCISSORS の速度xをビット反転
+P:32FE:hit_bullet_cow:接触処理 PLAYERBULLET vs COW\n----\nPLAYERBULLET を消し、COW を40フレーム硬直させる
+P:3309::接触処理 PLAYERBULLET vs DRUM\n----
+P:3311::撃ち込み点加算処理?
+P:3322::接触処理 PLAYERBULLET vs HELI\n----
+P:338F::接触処理 PLAYERBULLET vs HELIBULLET\n----
+P:33BD::接触処理 PLAYERBULLET vs WALLV/WALLH/CAPSULE\n----
+P:33C0::スコア加算処理?
+P:33CD::PLAYERBULLET を消す
+P:33D9::耐久度が正ならば耐久度を1減らす
+P:33E7::耐久度が0ならば耐久度を3に戻し、1段階損傷
+P:33F7::損傷レベルが0になったら耐久度を0にする(これで破壊フラグが立つ)
+P:3407::壁の種類に応じたルーチンを呼んで壁の状況を更新(グラフィック変更/破壊)
+P:3422::接触処理 PLAYERBULLET vs ROBO\n----
+P:3479::接触処理 PLAYERBULLET vs BLICK\n----
+P:34F8::接触処理 PLAYERBULLET vs SEAHORSE\n----
+P:355B::接触処理 PLAYERBULLET vs STARFISH\n----
+P:3614::接触処理 PLAYERBULLET vs STARFISHCHILD\n----
+P:3652:hit_bullet_seaweed:接触処理 PLAYERBULLET vs SEAWEED\n----\nPLAYERBULLET を消す
+P:3658:hit_bullet_seahorsebullet:接触処理 PLAYERBULLET vs SEAHORSEBULLET\n----\n両者とも消す
+P:3681::接触処理 PLAYERBULLET vs ASTEROID\n----
+P:37DD:hit_bullet_ray:接触処理 PLAYERBULLET vs RAY\n----
+P:37DE:hit_bullet_asteroidchild:接触処理 PLAYERBULLET vs ASTEROIDCHILD\n----\n両者とも消す
+P:37E7:hit_bullet_blackhole:接触処理 PLAYERBULLET vs BLACKHOLE\n----\nPLAYERBULLET を消す
+P:392F::16面かつ奇数フレームならば return
+P:4ADB:wallv_update
+P:4AE8::損傷レベルと耐久度がともに0ならば壁を消す
+P:4AFA:wallh_update
+P:4B0D::損傷レベルが0ならば壁を消す
+P:4B22:capsule_update
+P:4B76::損傷レベルが0ならば壁を消す
+P:4F4C:pause:ポーズルーチン\n----
+P:57C1:input_read:入力読み取り\n----\nIn\n  A U8 1P/2P選択 (0:1P, 1:2P)\nOut\n  A U8 入力 (LRDUTSBA) # 左右入力がある場合、上下入力は0となる\n \ninput1_read, input2_read が直接呼ばれることもある。
+P:57C5:input1_read
+P:57DE:input2_read
+P:6A1B:draw_title:タイトル画面描画\n----
+P:7202::EDの4桁の数字を表示する処理\n数字は10通りで、1P/2Pスコアの百の位に依存する
+P:7A7B:sprite_clear:全スプライトを非表示\n----
+P:7BC3:NMI_FBC3
+P:7BE5:NMI_FBE5
+P:7C12:NMI_FC12
+P:7C54:NMI_FC54
+P:7C96:NMI_FC96
+P:7D25:NMI_FD25
+P:7E54:NMI
+P:7F30:NMI_FF30
+P:7F49:IRQ
+P:7F64:RESET
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)
