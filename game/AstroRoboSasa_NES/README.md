@@ -5,9 +5,16 @@
 * [TASVideos](http://tasvideos.org/Game/nes-astro-robo-sasa.html)
 * [My first testrun](http://tasvideos.org/userfiles/info/35257141645135411)
 
-## Memo
+## Possible improvement
+
+10面で単独壁抜けができれば短縮になる(現行TASでは2P壁抜けで妥協している)。
+11,12面では簡単に成功するので、ラグが関係しているのかも。
 
 特定のタイミングで風船を割ったりポーズをかけたりするとBGMが止まること
 がある([参考ムービー](http://tasvideos.org/userfiles/info/35259310027607085))。
+これの発生条件を詳しく調べればラグ軽減に役立つかも。
+
+フレームカウンタの値によって微妙に動きが変わるので、厳密な最適化のため
+にはステージ開始時のフレームカウンタの値を何通りも試すことが必要。
 
 
