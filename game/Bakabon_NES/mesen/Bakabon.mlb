@@ -1,0 +1,76 @@
+﻿R:0008:input1:1P入力\nABSTUDLR
+R:0009:input2:2P入力\nABSTUDLR
+R:000A:input1_cont:2F継続した1P入力\nABSTUDLR
+R:000B:input2_cont:2F継続した2P入力\nABSTUDLR
+R:000C:input1_pre:1F前の1P入力\nABSTUDLR
+R:000D:input2_pre:1F前の2P入力\nABSTUDLR
+R:000E:input1_prepre_not:2F前の1P入力のnot\nABSTUDLR
+R:000F:input2_prepre_not:2F前の2P入力のnot\nABSTUDLR
+R:0013:rand_0:乱数[0]
+R:0014:rand_1:乱数[1]
+R:0015:rand_2:乱数[2]
+R:0022:life_max:最大LIFE\n単位:玉1個
+R:0023:life:LIFE\n単位:玉1/2個
+R:0048:time_timer:TIME用タイマ
+R:0049:time_0:TIME[0]
+R:004A:time_1:TIME[1]
+R:004B:time_2:TIME[2]
+R:0053:hero_x_screen:画面内での自機座標x
+R:0056:act_frame:同一アクション継続フレーム数\nよじ登り時、40に達すると登り動作開始
+R:0059:hero_y:自機座標y
+R:005D:camera_x:カメラ座標x
+R:007E:hero_speed_x:自機スピードx
+R:0178:hero_x_sub:自機座標xサブピクセル
+R:017D:hero_speed_y:自機スピードy
+R:0180:ladder_count:ハシゴ/突っ張り登り時の移動カウント\n上下どちらを押しても増える
+R:0181:hero_y_sub:自機座標yサブピクセル
+R:01B0:password_0:パスワード[0]
+R:01B1:password_1:パスワード[1]
+R:01B2:password_2:パスワード[2]
+R:01B3:password_3:パスワード[3]
+R:01B4:password_cursor:パスワードカーソル
+R:0396:midboss_hit_count:中ボスに攻撃を当てた回数\nその他いろいろ使い回されている\n(4ボスの現在の数字など)
+R:039A:boss1_point:1ボス ボール取得数
+R:039C:boss4_point:4ボス 正解数
+R:03A4:umbrella_count:傘取り出しカウンタ\n静止状態でBを押し続けるとインクリメント\n10で傘を取り出す
+R:0401:boss3_y:3ボス 座標y
+R:0402:boss3_x:3ボス 座標x
+R:0405:boss1_ball_y:1ボス ボール座標y
+R:0406:boss1_ball_x:1ボス ボール座標x
+R:04A0:boss1_ball_timer:1ボス ボール発射タイマ\n00h, 80h で発射
+P:19E2F::正しいパスワードに対応する面を返す\n----\nIn\n  55h U8 パスワードのハッシュ値\nOut\n  55h U8 面
+P:1EC01:input_read:入力読み取り\n----
+P:1EC4A:rand_init:乱数初期化\n----
+P:1EC4F:rand_update:乱数更新\n----
+P:1FE92::パスワードチェック\n不正なパスワードの場合、最初の面から開始\npassword[3] が0なら不正\npassword[2]-password[3] と password[0]+password[1] がmod 16で等しくないと不正\ntmp = (((password[0]-password[3])&0Fh)<<4) | ((password[1]-password[3])&0Fh)\ntmp が 58 以上なら不正
+P:1FECF::正しいパスワードに対応する面を得る
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)
