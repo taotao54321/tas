@@ -1,0 +1,280 @@
+﻿R:0010:input1:1P入力\nABSTUDLR
+R:0011:input2:2P入力\nABSTUDLR
+R:0013:nmi_func_lo:NMI関数ポインタ下位
+R:0014:nmi_func_hi:NMI関数ポインタ上位
+R:0015:nmi_count:NMIカウンタ\nNMIをn回待つのに使われる
+R:0017:scene1_state:SCENE1 状態\n\n0: 電車に飛び乗る前(操作不可)\n1: 通常プレイ中(先頭車両進入前。ジャンプ可)\n2: 先頭車両進入済(ジャンプ不可)\n3: ワルドラドに突き落とされている途中\n4: ワルドラドに突き落とされて着地済
+R:001D:camera_x_lo:カメラx下位\n2005h へ反映
+R:001E:camera_x_hi:カメラx上位\n2000h へ反映
+R:001F:camera_y:カメラy\n2005h へ反映
+R:0036:scene1_boss_vulnerable:SCENE1 ワルドラド無敵解除フラグ\n0:無敵, 1:無敵解除
+R:0037:scene1_boss_offset:SCENE1 ワルドラドのデータへのオフセット
+R:0045:knife_state:ナイフ状態\n[0,2]
+R:0046:knife_thrown:ナイフを手放したか\n0:まだ持っている, 1:手放した
+R:0047:knife_x_lo:ナイフ座標x下位
+R:0048:knife_x_hi:ナイフ座標x上位
+R:0049:knife_y_lo:ナイフ座標y下位
+R:004A:knife_y_hi:ナイフ座標y上位
+R:004B:knife_dir:ナイフ方向\n10: L\n20: R\n30: U\n40: D
+R:004C:knife_7
+R:004D:knife_8
+R:004E:knife_9
+R:004F:knife_A
+R:0050:knife_B
+R:0051:knife_C
+R:0052:knife_D
+R:0053:oam_addr:2003h 書き込み用
+R:0067:scene4_boss_hitcount:SCENE4 ワルドラドにナイフを当てた数
+R:0069:demo_input_idx:デモプレイ 入力インデックス
+R:006A:demo_input:デモプレイ 現在の入力
+R:006C:kikumegu_buf:OPメッセージ変化技用
+R:006D:kikumegu_bit_idx:OPメッセージ変化技用
+R:006E:kikumegu_byte_idx:OPメッセージ変化技用
+R:0071:scene1_boss_hitcount:SCENE1 ワルドラドにナイフを当てた数
+R:0081:knife_count:ナイフ発射数\nSCENE1でのみカウントされる
+R:0083:score_lo:スコア下位(100単位)\nスコアはオーバーフローあり
+R:0084:score_hi:スコア上位(100単位)\nスコアはオーバーフローあり
+R:0085:time:タイム\n120F強(一定でない)ごとにデクリメント
+R:0086:time_timer:タイム用カウンタ\n[0,31]
+R:0087:life:残機
+R:0088:difficulty_bak:難易度退避用
+R:0089:difficulty:難易度
+R:008A:round:周回数\n1-based
+R:008C:kikumegu:OPメッセージ変化技フラグ ("KIKU MEGU...")\n0:no, 1:yes
+R:008D:hero_0:bit7-4: [0,2]\nbit3-0:
+R:008E:hero_1
+R:008F:hero_x_lo:自機座標x下位
+R:0090:hero_x_hi:自機座標x上位
+R:0091:hero_y_lo:自機座標y下位
+R:0092:hero_y_hi:自機座標y上位
+R:0093:hero_dir:自機の向き
+R:0094:hero_modion_idx:自機モーションインデックス\nジャンプやナイフ投げモーションのインデックス\nジャンプ中は速度yのインデックスとしても使われる
+R:0095:hero_8:歩数?
+R:0096:hero_9:自機ジャンプ中の横移動フラグ(他の用途もある?)
+R:0097:hero_A:電車スクロール関連
+R:0098:hero_B
+R:0099:hero_intrain:自機が電車内に入ったフラグ?\n0だと電車内にいても連結部で落ちる
+R:009A:hero_D
+R:009B:hero_input:自機に対する入力\n通常プレイとデモプレイを統一的に扱うため
+R:009C:hero_F
+R:00A9:difficulty_title:タイトル画面で表示される難易度
+R:00B0:pause_state:ポーズ状態\n0: 解除済\n1: 解除中\n2: ポーズ中
+R:00B1:kikumegu_pressing:OPメッセージ変化技用
+R:00B3:ppu_ctrl:2000h 書き込み用
+R:00B4::bit7-6: 常に0\nbit5-4: NMIルーチンID
+R:00B8:demo:デモフラグ\n0:no, 1:yes
+R:00B9:demo_input_count:デモプレイ 現在の入力残り時間
+R:00C0:invincible:無敵フラグ\n0:no, 1:yes
+R:00DE:sound:効果音ID
+R:00E4:warmboot_str:ソフトリセット判定用文字列 size=4\n"KIKU" が書き込まれる
+R:00E8:hiscore_lo:ハイスコア下位(100単位)
+R:00E9:hiscore_hi:ハイスコア上位(100単位)
+R:00EA:rand_reg_0:乱数レジスタ[0]
+R:00EB:rand_reg_1:乱数レジスタ[1]
+R:00EC:rand_reg_2:乱数レジスタ[2]
+R:0280:objects:オブジェクトリスト
+P:0000:RESET
+P:0003:IRQ
+P:0004:NMI:NMIルーチン\n----
+P:001E::nmi_func テーブル
+P:0024:ppu_transfer_a:PPUへのデータ転送及び 2000h 設定(データは 200h-)\n----\nIn\n  A U8 \nOut\n  Y U8 データ終端の次のアドレスへのインデックス\n\nデータフォーマット:\n  U8   0:転送終了(データ終端), 非0:転送続行\n  U8   PPUアドレス下位\n  U8   PPUアドレス上位 / 2000h 設定\n    bit7   0:スプライト8x8/インクリメント+1, 1:インクリメント+32\n    bit6-0 PPUアドレス上位\n  U8   転送データ長\n  U8[] 転送データ
+P:006F:ppu_transfer_b:PPUへのデータ転送および 2000h 設定(データは 200h-)\n \nデータフォーマット:\n  U8   0:転送終了(データ終端), 非0:転送続行\n  U8   PPUアドレス下位\n  U8   PPUアドレス上位 / 2000h 設定\n    bit7   0:スプライト8x8/インクリメント+1, 1:インクリメント+32\n    bit6   1:bit7を無視し、インクリメント+8(ソフトウェア処理)\n    bit5-0 PPUアドレス上位\n  U8   転送データ長\n  U8[] 転送データ
+P:00DE:NMI_common:NMI 共通処理(最後に実行される)\n----
+P:00E0::入力読み取り準備
+P:00E8::1P/2P入力読み取り(拡張ポート対応)
+P:0118::nmi_count = POP() # 各NMI関数内で積まれる\n++nmi_count
+P:0123::NMI関数\n----
+P:0221::NMI関数\n----
+P:07AC::NMI関数\n----
+P:07D9:rand:乱数生成器\n----\nOut\n  A U8 乱数値 # [0,255]\n \n乱数値は内部的な結果に input1, input2 を ADC したものが返る。\nよって、2P入力を使った乱数調整が可能。\n(ここ以外に2P入力を読んでいるコードは存在しない)
+P:0834:camera_commit:カメラ座標をPPUに反映させる\n----\n座標値の下位1bitは無視される。
+P:084C:camera_init:カメラ座標を (0,0) に初期化\n----
+P:0855:ppu_nmi_disable:次のVBLANKを待ち、NMI禁止\n----
+P:085F:ppu_nmi_enable:次のVBLANKを待ち、NMI許可\n----
+P:086C:wait_next_vblank
+P:087C::200h-26Fh を0クリア
+P:0885:sprite_clear_all:スプライトバッファ全体を F8h で埋める\n----
+P:0890::スプライトバッファ 310h-36Fh を F8h で埋める\n----
+P:089E:array_read_0:オブジェクト構造体の指定オフセットを読み取るルーチン群\n----\nIn\n  00h ptr オブジェクト\nOut\n  A U8 値
+P:08A2:array_read_1
+P:08A6:array_read_2
+P:08AA:array_read_3
+P:08AE:array_read_4
+P:08B2:array_read_5
+P:08B6:array_read_6
+P:08BA:array_read_7
+P:08BE:array_read_8
+P:08C2:array_read_9
+P:08C6:array_read_A
+P:08CA:array_read_B
+P:08CE:array_read_C
+P:08D2:array_read_D
+P:08D6:array_read_E
+P:08DA:array_read_F
+P:08DF:array_write_0:オブジェクト構造体の指定オフセットへ書き込むルーチン群\n----\nIn\n  00h ptr オブジェクト\n  A   U8  値
+P:08E3:array_write_1
+P:08E7:array_write_2
+P:08EB:array_write_3
+P:08EF:array_write_4
+P:08F3:array_write_5
+P:08F7:array_write_6
+P:08FB:array_write_7
+P:08FF:array_write_8
+P:0903:array_write_9
+P:0907:array_write_A
+P:090B:array_write_B
+P:090F:array_write_C
+P:0913:array_write_D
+P:0917:array_write_E
+P:091B:array_write_F
+P:0920:sprite_put_string:文字列スプライト表示(傾きなし)\n----\nIn\n  0Eh U8  スプライトバッファ内オフセット\n  08h ptr データ\n  A   U8  スプライト属性
+P:0929:sprite_put_caption:キャプションスプライト表示 ("KIKU MEGU..." などの傾いた文字列)\n----\nIn\n  0Eh U8  スプライトバッファ内オフセット\n  08h ptr データ\n  A   U8  スプライト属性
+P:092F:sprite_put_linear:直線状にスプライトを配置\n----\nデータフォーマット:\n  U8   座標x (FFh で終端)\n  U8   座標y\n  U8[] タイル (FEh で終端)\n \nIn\n  0Eh U8  スプライトバッファ内オフセット\n  08h ptr データ\n  0Ch U8  座標y差分(毎回座標yから引かれる)\n  0Fh U8  スプライト属性
+P:0980:sprite_put_score100:100点獲得スプライト表示\n----\nIn\n  X U8 座標x\n  Y U8 座標y
+P:099A:sprite_put:スプライト1個書き込み\n----\nIn\n  0Eh U8 スプライトバッファ内オフセット\n  X   U8 座標x\n  Y   U8 座標y\n  A   U8 タイル\n  0Fh U8 属性\nOut\n  0Eh U8 4が加算される
+P:09B8:sprite_put_digit1:1桁の数値表示(スプライト)\n----\nIn\n  08h U16 値\n  X   U8  座標x\n  Y   U8  座標y
+P:09BD:sprite_put_digit2:2桁の数値表示(スプライト)\n----\nIn\n  08h U16 値\n  X   U8  座標x\n  Y   U8  座標y
+P:09C2:sprite_put_score:スコア表示(スプライト)\n----\nIn\n  08h U16 スコア\n  0Eh U8  スプライトバッファ内オフセット\n  X   U8  座標x\n  Y   U8  座標y
+P:09D9:sprite_put_number:数値表示(スプライト)\n----\nIn\n  08h U16 値\n  A   U8  桁数\n  0Eh U8  スプライトバッファ内オフセット\n  X   U8  座標x\n  Y   U8  座標y
+P:09FD:sprite_put_digit_aux:数字スプライト書き込み補助関数(タイル以外を書き込む)\n----\nIn\n  X   U8 スプライトバッファ内オフセット\n  04h U8 座標x\n  05h U8 座標y\nOut\n  04h U8 8が加算される
+P:0A12:u16_to_bcd:符号なし16bit値を5桁の unpacked BCD に変換\n----\nIn\n  08h U16 value\nOut\n  7C0h-7C4h U8[5] result
+P:0A44::BCD変換用
+P:0A4E:bzero:bzero\n----\nIn\n  00h ptr dst\n  X   U8  size
+P:0A58:strcpy:strcpy (終端文字 FFh)\n----\nIn\n  00h ptr src\n  02h ptr dst
+P:0B3D:abs8:A = abs(A)\n----
+P:0B47:abs16:16bit絶対値\n----\nIn\n  X U8 下位Byte\n  Y U8 上位Byte\nOut\n  X U8 下位Byte\n  Y U8 上位Byte
+P:0B58::ナイフとオブジェクトの衝突処理?\n----
+P:0B73::ナイフとオブジェクトの衝突判定?\n----\nIn\n  00h ptr オブジェクト
+P:0F59::キャラ出現処理?\n----
+P:1C80:sprite_clear_range:スプライトバッファの指定範囲を F8h で埋める\n----\nIn\n  X U8 offset\n  Y U8 size
+P:1C8A:asl_x4
+P:1C8F:lsr_x4
+P:1C94:obj_move_right:オブジェクトを右へ移動\n----\nIn\n  A U8 移動量
+P:1CA7:obj_move_left:オブジェクトを左へ移動\n----\nIn\n  A U8 移動量
+P:1CBA:obj_move_down:オブジェクトを下へ移動\n----\nIn\n  A U8 移動量
+P:1CCD:obj_move_up:オブジェクトを上へ移動\n----\nIn\n  A U8 移動量
+P:1CE0:obj_increment_x:オブジェクト座標xをインクリメント\n----
+P:1CEC:obj_decrement_x:オブジェクト座標xをデクリメント\n----
+P:1CF7:obj_set_x:オブジェクト座標xを設定\n----\nIn\n  04h U16 value
+P:1D01:obj_get_x:オブジェクト座標xを得る\n----\nOut\n  04h U16 result
+P:1D0C:obj_increment_y:オブジェクト座標yをインクリメント\n----
+P:1D18:obj_decrement_y:オブジェクト座標yをデクリメント\n----
+P:1D23:obj_set_y:オブジェクト座標yを設定\n----\nIn\n  04h U16 value
+P:1D2D:obj_get_y:オブジェクト座標yを得る\n----\nOut\n  04h U16 result
+P:1D38:knife_remove:ナイフのデータとスプライトをクリア\n----
+P:1D4C:knife_throw_ready:ナイフを投げる体勢に入る\n----
+P:1D69:knife_throw:ナイフを手放す\n----
+P:1D93::ナイフ関連\n----\nIn\n  00h ptr knife
+P:1DB5:knife_move:ナイフ移動\n----\nIn\n  00h ptr knife\n \nif(knife_dir == DIR_L)\n  obj_move_left(4)\nelif(knife_dir == DIR_R)\n  obj_move_right(4)\nelif(knife_dir == DIR_U)\n  obj_move_up(4)\nelif(knife_dir == DIR_D)\n  obj_move_down(4)
+P:1DDD::自機関連\n----
+P:1DFB::自機状態に対応するルーチン
+P:1E1C::ナイフ状態に対応するルーチン
+P:1E3D::ナイフ状態に対応するルーチン
+P:1E5E::ナイフ状態に対応するルーチン
+P:1E64::スプライトバッファ 370h-377h を F8h で埋める
+P:1F33:WARMBOOT_STR:"KIKU"
+P:1F37:_RESET
+P:1F46::乱数をインクリメントしつつVBLANK待ち
+P:1F4D::00h-E3h を0クリア
+P:1F57::if(warmboot_str が WARMBOOT_STR と等しくない)\n  copy WARMBOOT_STR -> warmboot_str\n  hiscore = 0
+P:1F7C::200h-7FFh を0クリア
+P:1FA2:main
+P:20DC::# パレット\ncopy F88Fh-F8AEh -> PPU 3F00h-3F1Fh\n\n# ネームテーブル\nPPU 2000h-23BFh を FFh で埋める\n\n# 属性テーブル\ncopy F8AFh-F8EEh -> PPU 23C0h-23FFh
+P:2177::A = (difficulty-1) / 2\n----
+P:217F:demo_generate_input:デモプレイの入力生成\n----\nOut\n  A U8 入力 # ABSTUDLR
+P:2198::00h-82h を0クリア\n----
+P:21A3:process_exitdemo_kikumegu_pause:デモ解除/kikumegu処理/ポーズ処理\n----
+P:2208::"PAUSE"
+P:2211:kikumegu_check:"KIKU MEGU LOVE STORY!" 技の処理\n----\nAボタンを0, Bボタンを1とする入力列が2進数で "LOVE" になったら条件成立。
+P:2247:kikumegu_reset:kikumegu_buf      = 0\nkikumegu_bit_idx  = 0\nkikumegu_byte_idx = 0
+P:2250::"LOVE"
+P:2289::"GAME OVER"
+P:22B3::"TRAP CAVE!"
+P:22C1::1面開始時メッセージ表示\n----
+P:22E4::"SCENE 1", "STOP THE EXPRESS!"
+P:2304:message_scene2:2面開始時メッセージ表示\n----
+P:231F::"SCENE 2", "SEARCH PRINCESS!"
+P:233E:message_scene3:3面開始時メッセージ表示\n----
+P:235E::"SCENE 3", "GET KEYWORD!"
+P:2379:message_scene4:4面開始時メッセージ表示\n----
+P:239A::"SCENE 4", "RESCUE PRINCESS!"
+P:2442::"KIKU MEGU LOVE STORY!"
+P:2499::"TIME OVER"
+P:2534::sprite_put_string() 用データ タイム/残機アイコン
+P:253D:extend:エクステンド\n----\nif(life != 9)\n  ++life\n  sound = 12
+P:254A:bonus10k:10000点ボーナス\n----
+P:255B:sprite_put_bonus10k:"BONUS!" "10000" 表示\n----\nIn\n  0Eh U8 スプライトバッファ内オフセット
+P:2566:bonus100k:100000点ボーナス\n----
+P:257F:sprite_put_string_wrapper:sprite_put_string() ラッパー (A=2 で呼び出す)\n----\nIn\n  0Eh U8  スプライトバッファ内オフセット\n  08h ptr データ
+P:25C8::"ESCAPE!", "GOOD!"
+P:25DC:sprite_put_congratulations:"CONGRATULATIONS!" 表示\n----
+P:25E8:sprite_put_caption_wrapper:sprite_put_caption() ラッパー (A=2 で呼び出す)\n----\nIn\n  0Eh U8  スプライトバッファ内オフセット\n  08h ptr データ
+P:25EE::"CONGRATULATIONS!"
+P:264E::"ROUND" "READY!"
+P:2660:scene1_main:SCENE1 メインルーチン\n----
+P:287A:label_A87A:SCENE1 隠しボーナス(ナイフを撃たずに電車に入ったとき直接呼ばれる)\n----
+P:29A4:scene1_hero_init:strcpy(A9B7h, 008Dh)\n----
+P:2A73:hero_jump:自機 ジャンプ中の処理\n----
+P:2AB2::電車の外/中でのジャンプ中速度yのリスト (80h で終端)
+P:2B16::SCENE1 入力処理?\n----
+P:2C1F:hero_move_left:自機を左へ移動\n----
+P:2C46:hero_move_right:自機を右へ移動\n----
+P:2CA2:scene1_hero_right_wall_check:SCENE1 電車内の自機が右端を越えているかの判定\n----\nOut\n  C bit 0:越えている, 1:越えていない\n \nC = hero.x < 9F0h と考えてよい(厳密には違うが)
+P:2CB1:scene1_knife_right_wall_check:SCENE1 ナイフが右端を越えているかの判定\n----\nOut\n  C bit 0:越えている, 1:越えていない\n \n右端を越えている場合、knife_remove() 呼び出しも行う。\n \nC = knife.x < 9F0h # 厳密には違うが\nif(!C)\n  knife_remove()
+P:2CC0::SCENE1 電車の右端からジャンプで飛び降りた際の何らかの判定\n----
+P:2CC9:scene1_hero_left_fall_check:SCENE1 電車の左から落ちるかどうかの判定\n----\nOut\n  C bit 0:落ちる, 1:落ちない\n \nC = hero.x >= 230h と考えてよい(厳密には違うが)
+P:2CD8:scene1_hero_hole_check:SCENE1 電車の穴に入るかどうかの判定\n----\nOut\n  C bit 0:入る, 1:入らない\n \n9B8h <= hero.x < 9BBh の判定と考えてよい
+P:2CEB:carry_set
+P:2CED:carry_clear
+P:2DB5:scene1_boss_activate_check:SCENE1 ワルドラドが動き出す処理\n----
+P:2E47::SCENE1 自機とワルドラドが衝突している限り自機を右へ押し出す\n----
+P:2E57:scene1_hero_boss_hit_check:SCENE1 自機とワルドラドの衝突判定\n----\nOut\n  C bit 0:hit, 1:not-hit\n \nif(scene1_state != 2) return true\n \nd = abs16(hero.x - boss.x)\nreturn d >= 13
+P:2E7A:scene1_hero_lastfall_check:SCENE1 先頭車両切り離し後に右端から落ちるかの判定\n----\nOut\n  C bit 0:落ちない, 1:落ちる
+P:2E98::電車スクロール関連\n----
+P:2EB9::電車スクロール関連\n----
+P:2EDC::電車スクロール関連\n----
+P:2EFE::電車スクロール関連\n----
+P:30E9::パレットロード\n----\ncopy D0EFh-D10Eh -> 07E0h-07FFh\ncopy D0EFh-D10Eh -> PPU 3F00h-3F1Fh
+P:3105::属性テーブルロード\n----\ncopy D10Fh-D14Eh -> PPU 23C0h-23FFh\ncopy D10Fh-D14Eh -> PPU 2FC0h-2FFFh
+P:317C::PPUへのデータ書き込み\n----\nIn\n  00h ptr データ\n  X   U8  サイズ
+P:32D9::"MYSTERY ZONE!"
+P:32EE:message_arijigoku:"ARIJIGOKU!" 表示(スプライト)\n----
+P:32FE::"ARIJIGOKU!"
+P:36A1::"POWER UP!"
+P:4111::strcpy(C124h, 008Dh)\n----
+P:486C:PULSE_DATA:APU_PULSE1 / APU_PULSE2 へ書き込むデータ (4Byte単位)
+P:499E:apu_init:APU初期化\n----\nAPU_STATUS = 0Fh\n \napu_pulse1_write(0)\nAPU_TRIANGLE[0] = 0\nAPU_NOISE[0] = 0\napu_pulse2_init()
+P:49B2:apu_pulse2_init:APU_PULSE2 初期化\n----\napu_pulse2_write(4)
+P:49B7:apu_pulse1_write:APU_PULSE1 へ書き込む\n----\nIn\n  X U8 書き込むデータ (PULSE_DATA) のオフセット\n \nfor(i = 0; i < 4; ++i)\n  APU_PULSE1[i] = PULSE_DATA[X+i]
+P:49BB:apu_pulse2_write:APU_PULSE2 へ書き込む\n----\nIn\n  X U8 書き込むデータ (PULSE_DATA) のオフセット\n \nfor(i = 0; i < 4; ++i)\n  APU_PULSE2[i] = PULSE_DATA[X+i]
+P:4B39::A を2bit左ローテートし、下位3bitのみを得る\n \n以下のような操作:\n  bc.....a -> 00000abc
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)

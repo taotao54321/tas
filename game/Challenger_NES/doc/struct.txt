@@ -1,0 +1,84 @@
+チャレンジャー (FC) データ構造
+==============================
+
+// 特に断らない限りリトルエンディアン
+
+enum GameObjType{
+    GAMEOBJ_TORIPPE = 0x00,
+    GAMEOBJ_BARU = 0x01,
+    GAMEOBJ_OJIZU = 0x02,
+    GAMEOBJ_TAMA = 0x03,
+    GAMEOBJ_WARUDORADO = 0x04,
+    GAMEOBJ_MARIA = 0x05,
+    GAMEOBJ_TOBI = 0x06,
+    GAMEOBJ_KUJIRA_HEAL = 0x07,
+    GAMEOBJ_MORIN = 0x08,
+    GAMEOBJ_BON = 0x09,
+    GAMEOBJ_PITAROBO = 0x0A,
+    GAMEOBJ_KEBARA = 0x0B,
+    GAMEOBJ_KUJIRA_EXTEND = 0x0C,
+    GAMEOBJ_KEY = 0x0D,
+    GAMEOBJ_CROWN = 0x0E,
+    GAMEOBJ_RING = 0x0F,
+};
+
+// $45-
+struct Knife{
+    U8	
+    U8	
+    U16	座標x
+    U16	座標y
+
+};
+
+// $8D-
+struct Hero{
+    U8	
+    U8	
+    U16	座標x
+    U16	座標y
+
+};
+
+// $0280-
+// Size: 0x10
+struct GameObj{
+    U8	フラグ
+    // 
+    // bit0:生存?
+
+    U8	オブジェクトタイプ/グラフィックID
+    // bit7-4:オブジェクトタイプ(GameObjType)
+    // bit3-0:グラフィックID
+    //   0x00:左向き0
+    //   0x01:左向き1
+    //   0x06:左向き死亡0
+    //   0x07:左向き死亡1
+    //   0x08:右向き0
+    //   0x09:右向き1
+    //   0x0E:右向き死亡0
+    //   0x0F:右向き死亡1
+
+    U16	座標x
+    U16	座標y
+
+    ptr アルゴリズムに関係
+    // データフォーマット:
+    //   U8[]
+    //     bit7-4:ルーチンID
+    //     bit3-0:
+
+    U8	当たり判定に関係
+
+    U8	アルゴリズムに関係
+    // bit7-4:
+    // bit3-0:
+
+    U8	
+    U8	アルゴリズムに関係
+
+    U8	
+    U8	
+    U8	
+    U8	画面内に存在した時間
+};
