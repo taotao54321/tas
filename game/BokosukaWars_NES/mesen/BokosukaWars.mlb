@@ -1,0 +1,153 @@
+﻿R:0002:input_start:startボタン入力
+R:0006:reg_a_bak:A レジスタ退避用 (NMI ルーチンで使用)
+R:0007:reg_x_bak:X レジスタ退避用 (NMI ルーチンで使用)
+R:0008:reg_y_bak:Y レジスタ退避用 (NMI ルーチンで使用)
+R:0009:ppu_ctrl:2000h 退避用
+R:000A:nt_select:現在のネームテーブル\n00h: 2000h\nFFh: 2400h\n\n表画面と裏画面を切り替えながら使っている
+R:000C:camera_lo:カメラ位置下位\nカメラ位置は [0,584]
+R:000D:camera_hi:カメラ位置上位\nカメラ位置は [0,584]
+R:000E:friend_count:自軍兵数\n初期値: 50
+R:000F:enemy_count:敵軍兵数\n初期値: 180
+R:0012:input_ab:ABボタン入力\n0:No, 1:Yes
+R:0014:cheat:裏技フラグ(最初から自軍全ユニット最強状態)\n0:no, 非0: yes
+R:0015:input_dir:方向キー入力\n\n0:無入力/UD/LR\n1:U\n3:R\n5:D\n7:L
+R:0016:rand_0:乱数[0]
+R:0017:rand_1:乱数[1]
+R:001A:selection:操作対象\n\n0: 全員\n1: スレン王\n2: 兵卒\n3: 騎士
+R:0038:input:入力\nRLDUTSBA\n1P/2P共用
+R:003F:round:周回数\n[0,4]
+R:004B:decimal_src_0:10進変換元[0]
+R:004C:decimal_src_1:10進変換元[1]
+R:004D:decimal_dst_0:10進変換先[0]
+R:004E:decimal_dst_1:10進変換先[1]
+R:004F:decimal_dst_2:10進変換先[2]
+R:008B:str_dist:距離描画用バッファ size=3
+R:008E:str_hero_power:スレン王戦闘力描画用バッファ size=2
+R:0090:str_friend_count:自軍兵数描画用バッファ size=2
+R:0092:str_enemy_count:敵軍兵数描画用バッファ size=3
+R:0095:str_result:戦闘結果描画用バッファ size=8
+R:0400:unit_pos_lo:ユニット座標x下位 size=230\n先頭ユニットは常にスレン王\nこのページはスプライトバッファとしても使われる
+R:0432:enemy_pos_lo:unit_pos_lo 配列内の敵軍ユニット部分
+R:0500:unit_pos_hi:各ユニット座標x上位/座標y/存在フラグ size=230\n先頭ユニットは常にスレン王\n\nABYYYYXX\n\nA: 消滅\nB: 未出現\nC: 座標y\nD: 座標x上位
+R:0532:enemy_pos_hi:unit_pos_hi 配列内の敵軍ユニット部分
+R:0600:unit_status:ユニット状態 size=230\n先頭ユニットは常にスレン王\n\n00h: 死亡\n01h: 生存\n02h-7Fh: 戦闘中\n80h-: 落とし穴に落ちた
+R:0632:enemy_status:unit_status 配列内の敵軍ユニット部分
+R:0700:unit_type_power:ユニット種別/戦闘力 size=230\n先頭ユニットは常にスレン王\n\nTTTPPPPP\n\nT:\n  自軍の場合\n    0: スレン王\n    1: 兵卒\n    2: 騎士\n    3: 重兵卒\n    4: 重騎士\n  敵軍の場合\n    0: オゴレス\n    1: 重騎士\n    2: 兵卒\n    3: 騎士\n    4: 獄吏\n    5: 親衛隊\n    6: 魔術師\n    7: 幻戦士\n\nP: 戦闘力(表示上の値を10で割って1を引いた値)
+R:0732:enemy_type_power:unit_type_power 配列内の敵軍ユニット部分
+P:0000:RESET
+P:0030::最初から自軍全ユニットが最強状態になる裏技の処理\n拡張機器なしでは初代ファミコンでもニューファミコンでも実行できない\nアスキースティックを2台使うのが一応正式な方法らしい?\n \nmic = 0 # 801Bh\nif(2Pのstart+selectが押されている)\n  draw_title()\n  for(i = 0; i < 256; ++i)\n    if(マイク入力あり) ++mic\n    時間潰し\n  if(mic >= 200) cheat = FFh
+P:00A4::camera = 584
+P:00CB:mainloop
+P:0191::スレン王座標xを str_dist に反映
+P:01B2::スレン王戦闘力を str_hero_power に反映
+P:01CF::friend_count を str_friend_count に反映
+P:01E6::enemy_count を str_enemy_count に反映
+P:020B::スレン王が消滅したら敗北
+P:0213::オゴレスが消滅したら勝利
+P:021E::マップ更新処理と思われる\n----
+P:0245:round_win:勝利\n----
+P:02F2::if(round < 4) ++round
+P:0300:round_lose:敗北\n----
+P:04A4::落とし穴の処理
+P:04E1::自軍ユニット出現処理
+P:050C::木、壁を破る処理
+P:0525::牢獄を破る処理
+P:06AA:camera_move
+P:0723:walk_right
+P:0738:walk_left
+P:0747:walk_down
+P:0757:walk_up
+P:0765::敵ユニットの行動ルーチン\n----
+P:0899::オゴレス/獄吏の行動ルーチン\n----\n乱数値 29h により決定\n  0,1: D\n  2,5: 動かない\n  3  : R\n  4  : L\n  6,7: U
+P:08C9::重騎士/幻戦士の行動ルーチン\n----\nif(スレン王が自分より左にいる)\n  walk_left()\nelse if(スレン王が自分より下にいる || mem[29h] >= 6)\n  walk_down()\nelse if(スレン王が自分より上にいる || mem[29h] < 2)\n  walk_up()\nelse if(スレン王が自分より右にいる)\n  walk_right()
+P:0905::兵卒の行動ルーチン\n----
+P:0906::リーダーユニット Y を決定
+P:0915::リーダーが消滅していたら主人公をターゲットに
+P:091A::リーダーをターゲットにする場合\n----
+P:096E::騎士の行動ルーチン\n----\nif(mem[2Ah] < 5)\n  walk_right()\nelse if(mem[2Ah] >= 7)\n  重騎士のルーチンへ\nelse\n  walk_left()
+P:0989::親衛隊の行動ルーチン\n----\nrand_mod2 を使っているが、右シフトにより必ず0になるので無意味
+P:0992::決して実行されないはず
+P:0995::魔術師の行動ルーチン\n----\nスレン王と座標xが一致したら幻戦士を召喚
+P:0A10::戦闘処理ここから\n----
+P:0A23::衝突している敵ユニットを探す
+P:0A50::X が兵卒または重兵卒で、かつ Y が親衛隊なら Y の戦闘力を 0 に
+P:0A69::兵卒または重兵卒の場合、勝敗判定の瞬間にRを押していると背後ボーナス +2 となる模様\nそれ以外のユニットはどうやっても背後ボーナス 0 になるっぽい?\nとりあえず左からぶつかるかどうかは関係なさげ\n \n(判定値) = (背後ボーナス) + rand_mod60() + (Xの戦闘力) - (Yの戦闘力) # 負になる場合は 0 とする
+P:0A8B::X がスレン王でなく、かつ Y がオゴレスなら判定値 0
+P:0A9D::(判定値) < 30 なら負け
+P:0AA6::自軍ユニットが勝ったときの処理\n----
+P:0AB2::X の戦闘力を 1 上げる(ただし上限 31)\n騎士、兵卒には別に上限がある。8B9Bh 参照
+P:0AC5::Y を消滅させる\n--enemy_count
+P:0AD4::# 騎士の場合は戦闘力上昇にボーナスがある\n# …のだが、初期戦闘力が 14 なので無意味っぽい\nif(X が騎士で、かつ戦闘力 12 未満)\n  X の戦闘力を 1 上げる
+P:0AEE::if(Y が幻戦士)\n  ++enemy_count\nelse if(Y が魔術師)\n  enemy_count -= 4
+P:0B07::魔術師に所属する幻戦士4体を全て消滅させる
+P:0B34::自軍ユニットが負けたときの処理\n----
+P:0B48:label_8B48
+P:0B6B::if(X が兵卒で、かつ戦闘力 5 以上)\n  X を戦闘力 13 の重兵卒にする\nelse if(X が騎士で、かつ戦闘力 17 以上)\n  X を戦闘力 25 の重騎士にする
+P:0B9B::if(X がスレン王でない)\n  X の戦闘力が 31 になったら 30 に戻す
+P:0BB4::str_result を更新
+P:0C66:NMI
+P:0DFE:label_8DFE:280h, 300h, 380h のデータからVRAM書き込み\n----
+P:0FCB::str_dist を描画
+P:0FE8::str_hero_power を描画
+P:1000::str_friend_count を描画
+P:1018::str_enemy_count を描画
+P:1035::str_result を描画
+P:106B::nt_select = ~nt_select
+P:62E5:apu_init
+P:6350:apu_wait_trioff:三角波のキーオフを待つ\n----
+P:642D::曲のループ処理?\n----\nIn\n  X U8 0または4
+P:6776:input1_read_dir:1Pの方向キー入力状態を得る\n----\nOut\n  A U8 0:無入力/UD/LR, 1:U, 3:R, 5:D, 7:L\n  X U8 Aと同じ値
+P:6795:input1_read_ab:1PのABボタン入力判定\n----\nOut\n  A U8 0:no, 1:yes
+P:679E:input1_read:1P入力読み取り(拡張ポート対応)\n----\nOut\n  A U8 result # RLDUTSBA
+P:67B8:input2_read:2P入力読み取り\n----\nOut\n  A U8 result # RLDUTSBA\n \n4017h の bit1 を読み取っているが、これの意味が不明。\nアスキースティック対応のため?
+P:67D2::A をデクリメントし続けて0にする(ウェイト用)\n----
+P:67D8:rand_next:次の乱数を得る\n----
+P:67E7:rand_mod8:[0,7] の乱数を得る\n----
+P:67ED:rand_mod3:[0,2] の乱数を得る\n----
+P:67F8:rand_mod2:[0,1] の乱数を得る\n----
+P:67FE:rand_mod5:[0,4] の乱数を得る\n----
+P:6809:rand_mod7:[0,6] の乱数を得る\n----
+P:6814:rand_mod30:[0,29] の乱数を得る (未使用?)\n----
+P:681F:rand_mod60:[0,59] の乱数を得る\n----
+P:682A:decimal:10進変換 (U16 -> U8[3])\n----\nIn\n  decimal_src U16   src\n  decimal_dst U8[3] dst # ビッグエンディアン
+P:6897::全ユニット初期化\n----
+P:68CA::round の分だけ敵全員の戦闘力を上げる
+P:68D8::friend_count = 50
+P:68DC::enemy_count = 180
+P:68E0::cheat が非0なら自軍全ユニットを最強化
+P:7333:draw_round:周回数マーク描画\n----
+P:7369::属性テーブル設定(40h Byte全てを AAh で埋める)\n----\nIn\n  Y U8 VRAMアドレス上位 # 23h or 27h
+P:73B3:draw_title:タイトル画面描画\n----
+P:797F::スプライトDMA (ページ 4)
+P:7989::nt_select = ~nt_select
+P:7C17:IRQ
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)
