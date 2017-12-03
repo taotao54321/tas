@@ -1,2 +1,14 @@
+# BizHawk
+*.bkm binary
+*.bk2 binary
+
+# FCEUX
+*.fm2 binary
+*.fm3 binary
+
+# Mesen
 *.cdl binary
 *.mlb text eol=lf
+
+# VBA
+*.vbm binary
