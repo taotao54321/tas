@@ -1,3 +1,16 @@
+*.zip binary
+*.7z  binary
+*.gz  binary
+*.bz2 binary
+*.xz  binary
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+
+
 # BizHawk
 *.bkm binary
 *.bk2 binary
