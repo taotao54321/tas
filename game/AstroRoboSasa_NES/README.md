@@ -3,7 +3,7 @@
 ## Movie
 
 * [TASVideos](http://tasvideos.org/Game/nes-astro-robo-sasa.html)
-* [My first testrun](http://tasvideos.org/userfiles/info/35257141645135411)
+* [My first testrun](movie/AstroRoboSasa-tas-any-0.1.fm2.xz)
 
 ## Possible improvement
 

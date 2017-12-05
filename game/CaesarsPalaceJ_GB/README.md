@@ -2,8 +2,8 @@
 
 ## Movie
 
-[My first attempt](http://tasvideos.org/userfiles/info/43516332562336831)
-([encode](https://www.youtube.com/watch?v=1s6IiPhGWuE))
+* [My first attempt (00:23.51)](movie/CaesarsPalaceJ-tas-any-1.0.bk2)
+  ([encode](https://www.youtube.com/watch?v=1s6IiPhGWuE))
 
 ## Memo
 
