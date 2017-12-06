@@ -3,3 +3,5 @@
 これまでに制作した資料を [Mesen](https://www.mesen.ca/) で利用できる形
 にまとめました。個別ゲームの mesen/ ディレクトリ内に CDL/MLB ファイル
 を置いてあります。
+
+[旧資料置き場](http://www6.atpages.jp/appsouko/work/TAS/)
