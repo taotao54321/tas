@@ -1,2 +1,4 @@
+*.nes
+
 __pycache__/
 *.py[cod]
