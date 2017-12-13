@@ -1,0 +1,184 @@
+﻿R:0011:input1_0:ABSTUDLR
+R:0012:input1_1:ABSTUDLR
+R:0013:input1_2:ABSTUDLR
+R:0014:input1_3:ABSTUDLR
+R:0015:input2_0:ABSTUDLR
+R:0016:input2_1:ABSTUDLR
+R:0017:input2_2:ABSTUDLR
+R:0018:input2_3:ABSTUDLR
+R:0019:sp_bak:スタックポインタ退避用
+R:003B:pos_x
+R:003C:pos_y
+R:003D:floor
+R:003E:dir:0:N\n1:E\n2:S\n3:W
+R:0040:rand_reg_0
+R:0041:rand_reg_1
+R:0043:chr_hi
+R:0044:chr_lo
+R:00FB:prg_bak
+R:00FC:ppu_scroll_y
+R:00FD:ppu_scroll_x
+R:00FF:ppu_ctrl
+R:027C:actor1:もろもろの行動におけるキャラ番号\n* 戦闘時の攻撃者/術者\n* 宝箱開封者
+R:027D:actor2:もろもろの行動におけるキャラ番号\n* 戦闘時の被攻撃者
+R:027F:light:光源値\n1歩で1減少\nFFh: 無限
+R:0280:ident_enemy:敵識別フラグ\n0:off, 非0:on\nLATUMAPIC使用で FFh
+R:0281:protect:永続ACボーナス\nMAPORFIC使用で FEh (-2)
+R:0282:antispell:呪文封じフラグ\n0:off, 非0:on\n呪文封じエリアに入ると FFh
+R:0700:sprite
+P:1C003:RESET
+P:1C008::MMC1リセット\nFFD9h の値が 80h であることに注意
+P:1C04E::MMC1設定\n* CHR: PPU 0000h-0FFFh, 1000h-1FFFh を個別に切り替え\n* PRG: 8000h-BFFFh を切り替え、C000h-FFFFh を固定\n* Mirroring: Horizontal
+P:1C069:NMI
+P:1C09E::入力読み取り(拡張ポート対応)
+P:1C141::各方向キーに対応するビットフラグ
+P:1C148::スプライト非表示処理
+P:1C168::入力バッファ更新(1Byteシフト)
+P:1C180::NMI許可
+P:1C18A::乱数をインクリメントしつつNMI待ち
+P:1C193:mmc1_control:MMC1制御レジスタへの書き込み\n----\nIn\n  A U8 書き込む値 (5bit)
+P:1C19D:chr_switch_lo:CHR-ROM下位バンク切り替え (0000h-0FFFh)\n----\nIn\n  A U8 バンクID
+P:1C1A7:chr_switch_hi:CHR-ROM上位バンク切り替え (1000h-1FFFh)\n----\nIn\n  A U8 バンクID
+P:1C1B1:prg_switch_pop:PRG-ROM切り替え (8000h-BFFFh)\n----\nprg_switch_push で保存したバンクIDへ切り替え
+P:1C1B3:prg_switch_push:PRG-ROM切り替え (8000h-BFFFh)\n----\nIn\n  A U8 バンクID # [0,6]\n \n元のバンクIDを保存する(1段階のみ)
+P:1C1B5:prg_switch:PRG-ROM切り替え (8000h-BFFFh)\n----\nIn\n  A U8 バンクID # [0,6]
+P:1C1C9:IRQ
+P:1C2A9:rand:乱数生成器\n----\nOut\n  A U8 result
+P:1CD1A:rand_dice:ダイスを振る\n----\nIn\n  X   U8 ダイス個数\n  m00 U8 ダイス面数\n  m01 U8 ダイス追加値\nOut\n  A   U8  ダイス値下位Byte\n  m01 U16 ダイス値\n \nダイス面数が0の場合、追加値が返る。\n(MAELIFICがこのようなダイス式を持っている)
+P:1CD1C::ダイス面数が0の場合の処理
+P:1CD21::X 回ダイスを振り、ダイス値を求める
+P:1CD2D::キャリーフラグにより [0,m00) を [1,m00] に補正
+P:1CD3C:rand_range:[0,A) の乱数を得る\n----\nIn\n  A U8\nOut\n  A U8 result
+P:1CD4B:rand_range_impl:[0,m00) の乱数を得る\n----\nIn\n  A   U8 乱数\n  m00 U8\nOut\n  A U8 result\n \nm00 == 0 の場合、0が返る。\n\nm05 = m00\n \n(m04, m06, A) = (A, rand_reg[0], 0)\nfor(i = 0; i < 16; ++i)\n  ASL(m04, m06, A)\n  if(C)\n    (m04, m06, A) += m05 # (*)\n \n# (*) の加算が毎回行われた場合、m04 == (255*m00) >> 8\n# これは m00 - 1 に等しい (m00 != 0 の場合)。\n# よって、[0,m00) の乱数が得られる。\n \nm05 = A\nA = m04
+P:1CF1F:monster_load_by_idx:キャラ番号に対応するモンスターデータを moncur へロード\n----\nIn\n  Y U8 キャラ番号
+P:1CF2A:monster_load:モンスターデータを moncur へロード\n----\nIn\n  A U8
+P:1CF2C::ptr = 8000h | 80h*A
+P:1DBAF:IDX2GROUP:キャラ番号に対応するグループ番号の配列
+P:1E0E2:_rand_dice:rand_dice のダイス個数を X でなく m02 で指定する版\n----
+P:1EAB1:chest_inspect:宝箱: INSPECT ルーチン\n----
+P:1EB34:chest_calfo:宝箱: CALFO ルーチン\n----
+P:1EBF2::各宝箱罠に対応するルーチン
+P:1EC0D:trap_damage:罠によりPTキャラのHPを減らす\n----\nIn\n  m00  U8 ダイス面数
+P:1EC46:trigger_crossbow:罠発動: CROSSBOW BOLT\n----
+P:1EC50:trigger_explosion:罠発動: EXPLODING BOX\n----
+P:1EC77:trigger_stunner:罠発動: STUNNER\n----
+P:1EC89:trigger_needle:罠発動: POISON NEEDLE\n----
+P:1EC92:trigger_gas:罠発動: GAS BOMB\n----
+P:1ECAB:trigger_teleporter:罠発動: TELEPORTER\n----
+P:1ECBC:trigger_blaster_mage:罠発動: MAGE'S MISERY\n----
+P:1ECC3::MAGE
+P:1ECC7::SAMURAI
+P:1ECDA:trigger_blaster_cleric:罠発動: CLERIC'S CRISIS\n----
+P:1ECE1::WIZARD
+P:1ECE5::CLERIC
+P:1ECF8:trigger_alarm:罠発動: ALARM\n----
+P:1ED00:trap_blaster_light:ブラスター系罠の被害判定 (麻痺のみ)\n----
+P:1ED0B:trap_blaster_heavy:ブラスター系罠の被害判定 (麻痺or石化)\n----
+P:1ED2F:get_class:キャラの職業を得る\n----\nIn\n  X U8 キャラ番号
+P:1F32A:div_16_8:符号なし除算 (U16 / U8 -> 商 U16, 余り U8)\n----\nIn\n  m00 U16 lhs\n  A   U8  rhs\nOut\n  m00   U16 商\n  A,m02 U8  余り
+P:1F32C:_div_16_8:div_16_8 の rhs を A でなく m02 で指定する版\n----
+S:0000:chara_master:size: 100h * 20
+S:1400:stock_inited:ボルタック在庫初期化フラグ\n0:未初期化, 1:初期化済
+S:1401:stock:ボルタック在庫 size=101\nFFh で無限\nFEh の状態でもう1つ売っても FEh のまま\nつまり元々在庫無限のもの以外は無限にならない
+S:1ABF:surprise:0:無\n1:PT先制\n2:敵先制
+S:1AC0:pt_lvsum_lo
+S:1AC1:pt_lvsum_hi
+S:1AC2:enemy_lvsum_lo
+S:1AC3:enemy_lvsum_hi
+S:1AC4:pt_alive_count
+S:1AC5:enemyg_alive_count_0
+S:1AC6:enemyg_alive_count_1
+S:1AC7:enemyg_alive_count_2
+S:1AC8:enemyg_alive_count_3
+S:1AC9:enemyg_mage_lv_0
+S:1ACA:enemyg_mage_lv_1
+S:1ACB:enemyg_mage_lv_2
+S:1ACC:enemyg_mage_lv_3
+S:1ACD:enemyg_cleric_lv_0
+S:1ACE:enemyg_cleric_lv_1
+S:1ACF:enemyg_cleric_lv_2
+S:1AD0:enemyg_cleric_lv_3
+S:1AD1:enemyg_monster_0:第0グループのモンスターID\nメイン敵IDと解釈すべき?
+S:1AD2:enemyg_monster_1
+S:1AD3:enemyg_monster_2
+S:1AD4:enemyg_monster_3
+S:1AD5:enemyg_monster_4
+S:1B36:allm_healing
+S:1B60:allm_at
+S:1B8A:allm_resist
+S:1BB4:allm_status
+S:1BDE:allm_hp_lo
+S:1C08:allm_hp_hi
+S:1C32:allm_mhp_lo
+S:1C5C:allm_mhp_hi
+S:1C86:allm_lv
+S:1CB0:allm_action
+S:1CDA:allm_order
+S:1D04:allm_silence
+S:1D94:ptm_saving1
+S:1D9A:ptm_saving2
+S:1DA0:ptm_saving3
+S:1DA6:ptm_saving4
+S:1DAC:ptm_saving5
+S:1DBE:ptm_drained
+S:1DC4:ptm_lv_lo
+S:1DCA:ptm_lv_hi
+S:1DD0:ptm_ac
+S:1DD6:ptm_poison
+S:1DDC:ptm_addr_hi
+S:1DEF:pt_count:PT人数
+S:1DF6:alarmed
+S:1DF7:chest_trap:0:(none)\n1:POISON NEEDLE\n2:GAS BOMB\n3:CROSSBOW BOLT\n4:EXPLODING BOX\n5:STUNNER\n6:TELEPORTER\n7:MAGE'S MISERY\n8:CLERIC'S CRISIS\n9:ALARM
+S:1DF8:ptm_inspect_result
+S:1DFE:group_mr_0
+S:1DFF:group_mr_1
+S:1E00:group_mr_2
+S:1E01:group_mr_3
+S:1E02:group_mr_4
+S:1E03:moncur:現在処理中の MonsterData
+S:1E43:moncur_genre
+S:1E45:moncur_num_dice_num
+S:1E46:moncur_num_dice_side
+S:1E47:moncur_num_dice_add
+S:1E48:moncur_hit_dice_num
+S:1E49:moncur_hit_dice_side
+S:1E4A:moncur_hit_dice_add
+S:1E4B:moncur_ac
+S:1E4C:moncur_at
+S:1E4D:moncur_dmg_dice_0_num
+S:1E4E:moncur_dmg_dice_0_side
+S:1E4F:moncur_dmg_dice_0_add
+S:1E5F:moncur_drain
+S:1E60:moncur_healing
+S:1E63:moncur_next_monster
+S:1E64:moncur_next_prob
+G:2000:PpuControl_2000:7  bit  0\n---- ----\nVPHB SINN\n|||| ||||\n|||| ||++- Base nametable address\n|||| ||    (0 = $2000; 1 = $2400; 2 = $2800; 3 = $2C00)\n|||| |+--- VRAM address increment per CPU read/write of PPUDATA\n|||| |     (0: add 1, going across; 1: add 32, going down)\n|||| +---- Sprite pattern table address for 8x8 sprites\n||||       (0: $0000; 1: $1000; ignored in 8x16 mode)\n|||+------ Background pattern table address (0: $0000; 1: $1000)\n||+------- Sprite size (0: 8x8; 1: 8x16)\n|+-------- PPU master/slave select\n|          (0: read backdrop from EXT pins; 1: output color on EXT pins)\n+--------- Generate an NMI at the start of the\n           vertical blanking interval (0: off; 1: on)
+G:2001:PpuMask_2001:7  bit  0\n---- ----\nBGRs bMmG\n|||| ||||\n|||| |||+- Display type: (0: color, 1: grayscale)\n|||| ||+-- 1: Show background in leftmost 8 pixels of screen, 0: Hide\n|||| |+--- 1: Show sprites in leftmost 8 pixels of screen, 0: Hide\n|||| +---- 1: Show background\n|||+------ 1: Show sprites\n||+------- Emphasize red\n|+-------- Emphasize green\n+--------- Emphasize blue
+G:2002:PpuStatus_2002:7  bit  0\n---- ----\nVSO. ....\n|||| ||||\n|||+-++++- Least significant bits previously written into a PPU register\n|||        (due to register not being updated for this address)\n||+------- Sprite overflow. The intent was for this flag to be set\n||         whenever more than eight sprites appear on a scanline, but a\n||         hardware bug causes the actual behavior to be more complicated\n||         and generate false positives as well as false negatives; see\n||         PPU sprite evaluation. This flag is set during sprite\n||         evaluation and cleared at dot 1 (the second dot) of the\n||         pre-render line.\n|+-------- Sprite 0 Hit.  Set when a nonzero pixel of sprite 0 overlaps\n|          a nonzero background pixel; cleared at dot 1 of the pre-render\n|          line.  Used for raster timing.\n+--------- Vertical blank has started (0: not in vblank; 1: in vblank).\n           Set at dot 1 of line 241 (the line *after* the post-render\n           line, false); cleared after reading $2002 and at dot 1 of the\n           pre-render line.
+G:2003:OamAddr_2003:Set OAM address - Write only
+G:2004:OamData_2004:Read/Write OAM data
+G:2005:PpuScroll_2005:Set PPU scroll, write twice - Write only
+G:2006:PpuAddr_2006:Set PPU address, write twice - Write only
+G:2007:PpuData_2007:Read/Write VRAM
+G:4000:Sq1Duty_4000:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4001:Sq1Sweep_4001:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4002:Sq1Timer_4002:TTTT TTTT\nTimer low (T)
+G:4003:Sq1Length_4003:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4004:Sq1Duty_4004:DDLC VVVV\nDuty (D), envelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:4005:Sq1Sweep_4005:EPPP NSSS\nSweep unit: enabled (E), period (P), negate (N), shift (S)
+G:4006:Sq1Timer_4006:TTTT TTTT\nTimer low (T)
+G:4007:Sq1Length_4007:LLLL LTTT\nLength counter load (L), timer high (T)
+G:4008:TrgLinear_4008:CRRR RRRR\nLength counter halt / linear counter control (C), linear counter load (R)
+G:400A:TrgTimer_400A:TTTT TTTT\nTimer low (T)
+G:400B:TrgLength_400B:LLLL LTTT\nLength counter load (L), timer high (T)
+G:400C:NoiseVolume_400C:--LC VVVV\nEnvelope loop / length counter halt (L), constant volume (C), volume/envelope (V)
+G:400E:NoisePeriod_400E:L--- PPPP\nLoop noise (L), noise period (P)
+G:400F:NoiseLength_400F:LLLL L---\nLength counter load (L)
+G:4010:DmcFreq_4010:IL-- RRRR\nIRQ enable (I), loop (L), frequency (R)
+G:4011:DmcCounter_4011:-DDD DDDD\nLoad counter (D)
+G:4012:DmcAddress_4012:AAAA AAAA\nSample address (A)
+G:4013:DmcLength_4013:LLLL LLLL\nSample length (L)
+G:4014:SpriteDma_4014:Writing $XX will upload 256 bytes of data from CPU page $XX00-$XXFF to the internal PPU OAM.
+G:4015:ApuStatus_4015:Read:\nIF-D NT21\nDMC interrupt (I), frame interrupt (F), DMC active (D), length counter > 0 (N/T/2/1)\n\nWrite:\n---D NT21\nEnable DMC (D), noise (N), triangle (T), and pulse channels (2/1)
+G:4016:Ctrl1_4016:Read (NES - input):\n---4 3210\nRead data from controller port #1.\n\nWrite:\n---- ---A\nOutput data (strobe) to both controllers.
+G:4017:Ctrl2_FrameCtr_4017:Read (NES - input):\n---4 3210\nRead data from controller port #2.\n\nWrite (Frame counter): MI-- ----\nMode (M, 0 = 4-step, 1 = 5-step), IRQ inhibit flag (I)
